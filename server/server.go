@@ -8,6 +8,7 @@ import (
 	"sync/atomic"
 
 	api "giftForum/api"
+	"giftForum/db"
 )
 
 const confPath = "./config.json"
@@ -15,7 +16,6 @@ const confPath = "./config.json"
 var rowConfig []byte
 
 type Config struct {
-	//WebServer WebServerConfig
 	Port string
 }
 
@@ -23,7 +23,8 @@ type Config struct {
 type Server struct {
 	Config Config `json:"WebServer"`
 
-	isClosed int32 //non-zero: we're in Close
+	dbManager *db.DBManager
+	isClosed  int32 //non-zero: we're in Close
 }
 
 // NewServer create a new server from config.
@@ -38,18 +39,27 @@ func NewServer() *Server {
 
 func (g *Server) Initialize() error {
 
-	err := g.loadConfig()
+	buf, err := g.loadConfig()
 	if err != nil {
 		return err
 	}
 
+	d := db.DBManager{}
+	err = d.Initialize(buf)
+	if err != nil {
+		return err
+	}
+
+	g.dbManager = &d
 	return nil
 
 }
 
 //Uninitialize is a
 func (g *Server) Uninitialize() error {
-	return nil
+
+	return g.dbManager.Uninitialize()
+
 }
 
 //Close is a
@@ -66,16 +76,16 @@ func (g *Server) readFile(fileName string) ([]byte, error) {
 	return ioutil.ReadFile(fileName)
 }
 
-func (g *Server) loadConfig() error {
+func (g *Server) loadConfig() ([]byte, error) {
 	buf, err := ioutil.ReadFile(confPath)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	rowConfig = buf
 	err = json.Unmarshal(buf, &g)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if g.Config.Port == "" {
@@ -85,7 +95,7 @@ func (g *Server) loadConfig() error {
 		g.Config.Port = ":" + g.Config.Port
 	}
 
-	return nil
+	return buf, nil
 }
 
 // Serve starts listen http requests
