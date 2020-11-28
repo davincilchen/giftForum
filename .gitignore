@@ -1,0 +1,5 @@
+*.exe
+api/debug.test
+conf/*.yaml
+.DS_Store
+debug

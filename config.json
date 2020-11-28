@@ -1,0 +1,45 @@
+{
+	"WebServer":{
+		"Port":"8081"
+	},
+	"db":{
+	    "master":{
+			"user":"root",
+			"password":"8888",
+			"ip": "127.0.0.1",
+			"port": 3306,
+			"maxLifeTime":60,
+			"maxConns":500,
+			"maxIdleConns":100
+		},
+		"replication":[
+			{
+				"user":"root",
+				"password":"8888",
+				"ip": "127.0.0.1",
+				"port": 3306,
+				"maxLifeTime":60,
+				"maxConns":500,
+				"maxIdleConns":100
+			},
+			{
+				"user":"root",
+				"password":"8888",
+				"ip": "127.0.0.1",
+				"port": 3306,
+				"maxLifeTime":60,
+				"maxConns":500,
+				"maxIdleConns":100
+			},
+			{
+				"user":"root",
+				"password":"8888",
+				"ip": "127.0.0.1",
+				"port": 3306,
+				"maxLifeTime":60,
+				"maxConns":500,
+				"maxIdleConns":100
+			}
+		]
+	}
+}
