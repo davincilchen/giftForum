@@ -1,0 +1,30 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="/assets/css/custom.css" rel="stylesheet">
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{{ if .success }}
+    <div class="alert alert-success" role="alert">
+        {{ .success }}
+    </div>
+{{ end }}
+{{if .error}}
+    <div class="alert alert-danger" role="alert">
+        {{ .error }}
+    </div>
+{{end}}
+<div class="container register-form">
+    {{if .userid}}
+        <a href="/user/{{.userid}}" class="btn btn-info" role="button">{{.email}}</a>
+        <a href="/users/sign_out" method="delete" class="btn btn-info" role="button">Sign out</a>
+    {{else}}
+        <a href="/users/sign_in" class="btn btn-info" role="button">Sign in</a>
+    {{end}}
+    <form METHOD="POST" ACTION="/users/sign_in">
+        <div class="form">
+            <div class="note">
+                <p>User</p>
+            </div>
+        </div>
+    </form>
+</div>

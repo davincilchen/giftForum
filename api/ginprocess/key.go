@@ -1,6 +1,6 @@
 package ginprocess
 
 const (
-	GinKeyError         = "Error"
-
+	GinKeyError     = "Error"
+	GinKeyLoginUser = "LoginUser"
 )

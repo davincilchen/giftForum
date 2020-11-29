@@ -1,8 +1,6 @@
 package middleware
 
 import (
-	
-	
 	"fmt"
 	"time"
 
@@ -10,6 +8,8 @@ import (
 )
 
 type APILog struct {
+	RequestURI   string
+	Method       string
 	Duration     time.Duration
 	DurationText string
 }
@@ -19,10 +19,11 @@ func Logger(ctx *gin.Context) {
 
 	ctx.Next()
 	log := APILog{}
+	log.RequestURI = ctx.Request.RequestURI
+	log.Method = ctx.Request.Method
 	log.Duration = time.Since(now)
 	log.DurationText = fmt.Sprintf("%v", log.Duration)
-	
-	fmt.Printf("%+v\n",log)
-	
+
+	fmt.Printf("%+v\n", log)
 
 }

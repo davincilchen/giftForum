@@ -21,9 +21,12 @@ func Router() *gin.Engine {
 	router.GET("/", handler.Index)
 	router.GET("/index", handler.Index)
 
+	router.GET("users/sign_in", handler.GetUsersSignIn)
 	router.POST("users/sign_in", handler.CreateUsersSignIn)
+	router.DELETE("users/:sign_out", handler.DeleteUsersSignOut)
 	router.GET("users/sign_up", handler.GetUsersSignUp)
 	router.POST("users/sign_up", handler.CreateUsersSignUp)
+	router.GET("user/:id", handler.GetUser)
 
 	return router
 }

@@ -8,6 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func GetUsersSignIn(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, loginHTML, nil)
+}
+
+func GetUser(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, userHTML, nil)
+}
 func CreateUsersSignIn(ctx *gin.Context) {
 	var err error
 	code := http.StatusBadRequest
@@ -50,6 +57,12 @@ func CreateUsersSignIn(ctx *gin.Context) {
 		"success": "登入成功",
 	})
 	return
+}
+
+func DeleteUsersSignOut(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, indexHTML, gin.H{
+		"success": "登出成功",
+	})
 }
 
 func GetUsersSignUp(ctx *gin.Context) {
