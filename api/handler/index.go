@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,4 +10,5 @@ import (
 func Index(ctx *gin.Context) {
 
 	fmt.Println("index ---\n")
+	ctx.HTML(http.StatusOK, "login.html", nil)
 }

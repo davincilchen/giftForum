@@ -3,3 +3,4 @@ api/debug.test
 conf/*.yaml
 .DS_Store
 debug
+__debug_bin
