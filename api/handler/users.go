@@ -16,7 +16,7 @@ func CreateUsersSignIn(ctx *gin.Context) {
 		if err == nil {
 			return
 		}
-		ctx.HTML(code, "login.html", gin.H{
+		ctx.HTML(code, loginHTML, gin.H{
 			"error": err,
 		})
 	}()
@@ -46,7 +46,7 @@ func CreateUsersSignIn(ctx *gin.Context) {
 		return
 	}
 
-	ctx.HTML(http.StatusOK, "login.html", gin.H{
+	ctx.HTML(http.StatusOK, loginHTML, gin.H{
 		"success": "登入成功",
 	})
 	return

@@ -10,5 +10,5 @@ import (
 func Index(ctx *gin.Context) {
 
 	fmt.Println("index ---\n")
-	ctx.HTML(http.StatusOK, "login.html", nil)
+	ctx.HTML(http.StatusOK, loginHTML, nil)
 }
