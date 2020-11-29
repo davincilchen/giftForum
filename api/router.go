@@ -18,7 +18,12 @@ func Router() *gin.Engine {
 	router.Use(middleware.Logger,
 		gin.Recovery(),
 		middleware.Auth)
+	router.GET("/", handler.Index)
 	router.GET("/index", handler.Index)
+
+	router.POST("users/sign_in", handler.CreateUsersSignIn)
+	router.GET("users/sign_up", handler.GetUsersSignUp)
+	router.POST("users/sign_up", handler.CreateUsersSignUp)
 
 	return router
 }

@@ -14,7 +14,6 @@
     </div>
 {{end}}
 <div class="container register-form">
-    <form METHOD="POST" ACTION="/login">
         <div class="form">
             <div class="note">
                 <p>Please Login</p>
@@ -31,9 +30,12 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btnSubmit">Sign in</button>
-                <button type="submit" class="btnSubmit">Sign up</button>
+                <form METHOD="POST" ACTION="/users/sign_in">
+                    <button type="submit" class="btnSubmit">Sign in</button>
+                </form>
+                <form METHOD="GET" ACTION="/users/sign_up">
+                    <button type="submit" class="btnSubmit">Sign up</button>
+                </form>
             </div>
         </div>
-    </form>
 </div>
