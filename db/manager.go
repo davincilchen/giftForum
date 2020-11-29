@@ -8,7 +8,6 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -46,8 +45,6 @@ func (r *DBManager) Initialize(buf []byte) error {
 	if err != nil {
 		return err
 	}
-
-	spew.Dump(c)
 
 	db, err := r.SqlOpen(c.MSConfig.Master)
 	if err != nil {
