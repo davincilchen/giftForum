@@ -13,9 +13,11 @@ func CreateUser(email, password string) *User {
 	return &User{}
 }
 
-func UserLogin(user *User) (*LoginUser, error) {
+func UserLogin(email, password string) (*LoginUser, error) {
 	u := &LoginUser{
-		User:  *user,
+		User: User{
+			Email: email,
+		},
 		Token: "",
 	}
 	return u, nil

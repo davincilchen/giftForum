@@ -1,6 +1,7 @@
 package models
 
 type User struct {
+	Email string
 }
 
 type LoginUser struct {
