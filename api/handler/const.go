@@ -1,5 +1,5 @@
 package handler
 
 const (
-	loginHTML = "login.html"
+	loginHTML = "login.tmpl"
 )

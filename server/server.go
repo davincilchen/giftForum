@@ -9,6 +9,8 @@ import (
 
 	api "giftForum/api"
 	"giftForum/db"
+
+	"github.com/gin-gonic/gin"
 )
 
 const confPath = "./config.json"
@@ -16,7 +18,8 @@ const confPath = "./config.json"
 var rowConfig []byte
 
 type Config struct {
-	Port string
+	Port    string
+	GinMode string
 }
 
 // Server is a
@@ -105,6 +108,9 @@ func (g *Server) Serve() {
 	fmt.Printf("======= Server start to listen (%s) and serve =======\n", addr)
 
 	router := api.Router()
+	if g.Config.GinMode != "" {
+		gin.SetMode(g.Config.GinMode)
+	}
 	router.Run(addr)
 
 }
