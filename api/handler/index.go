@@ -4,7 +4,6 @@ import (
 	"giftForum/api/ginprocess"
 	"giftForum/models"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,8 +20,6 @@ func Index(ctx *gin.Context) {
 		ctx.HTML(http.StatusOK, indexHTML, nil)
 	}
 
-	ctx.HTML(http.StatusOK, indexHTML, gin.H{
-		"userid": strconv.FormatInt(int64(user.ID), 10),
-		"email":  user.Email,
-	})
+	ResposnHtmlWithUser(ctx, indexHTML, user)
+
 }

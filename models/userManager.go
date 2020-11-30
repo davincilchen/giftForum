@@ -62,6 +62,16 @@ func (t *UserManager) userSessionLogin(user *LoginUser) error {
 	return nil
 }
 
+func CreateUserAndLogin(email, password string) (*LoginUser, error) {
+
+	user, err := CreateUser(email, password)
+	if err != nil {
+		return nil, err
+	}
+	return userLogin(user)
+
+}
+
 func CreateUser(email, password string) (*User, error) {
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
@@ -78,6 +88,7 @@ func CreateUser(email, password string) (*User, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return user, nil
 }
 
@@ -109,24 +120,40 @@ func getUser(email, password string) (*User, error) {
 	return &User{}, nil
 }
 
-func UserLogin(email, password string) (*LoginUser, error) {
+func userLogin(user *User) (*LoginUser, error) {
 	if userManager == nil {
 		return nil, fmt.Errorf("userManager is nil")
 	}
-	user, err := GetUser(email, password)
-	if err != nil {
-		return nil, err
-	}
+
 	u := &LoginUser{
 		User: *user,
 		UUID: gentoken.GenToken(),
 	}
 
-	err = userManager.userSessionLogin(u)
+	err := userManager.userSessionLogin(u)
 	if err != nil {
 		return nil, err
 	}
 	return u, nil
+}
+
+func UserLogin(email, password string) (*LoginUser, error) {
+
+	user, err := GetUser(email, password)
+	if err != nil {
+		return nil, err
+	}
+	return userLogin(user)
+	// u := &LoginUser{
+	// 	User: *user,
+	// 	UUID: gentoken.GenToken(),
+	// }
+
+	// err = userManager.userSessionLogin(u)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// return u, nil
 }
 
 func UserLogout(uuid string) (*LoginUser, error) {

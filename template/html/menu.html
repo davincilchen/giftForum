@@ -23,8 +23,8 @@
                     <form class="navbar-form navbar-right"> <!--form for button postion "center" -->
                     <!-- check user -->
                         <a href="/" class="btn btn-info" role="button">首頁</a>
-                        {{if .userid}}                            
-                            <a href="/user/{{.userid}}" class="btn btn-info" role="button">{{.email}}</a>                            
+                        {{if .user}}                            
+                            <a href="/user/{{.user.ID}}" class="btn btn-info" role="button">{{.user.Email}}</a>                            
                         {{else}}      
                             <a href="/users/sign_in" class="btn btn-info" role="button">登入</a>
                             <a href="/users/sign_up" class="btn btn-info" role="button">註冊</a>
@@ -36,7 +36,7 @@
     </div>
 </nav>
 
-{{if .userid}}
+{{if .user}}
 <form METHOD="POST" ACTION="/users/sign_out">
     <div class="form " >
         <!--a href="/users/sign_out" method="POST" class="btn btn-info" role="button">登出</a-->

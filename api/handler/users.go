@@ -130,14 +130,13 @@ func CreateUsersSignUp(ctx *gin.Context) {
 		return
 	}
 
-	_, err = models.CreateUser(user.Email, user.Password)
+	loginUser, err := models.CreateUserAndLogin(user.Email, user.Password)
 	if err != nil {
 		code = http.StatusUnauthorized
 		err = errors.New("建立帳號失敗")
 		return
 	}
 
-	ctx.HTML(http.StatusOK, indexHTML, gin.H{
-		"success": "註冊成功",
-	})
+	ResposnSuccessHtmlWithUser(ctx, indexHTML, "註冊成功", loginUser)
+
 }
