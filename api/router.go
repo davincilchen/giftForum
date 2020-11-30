@@ -21,6 +21,7 @@ func Router() *gin.Engine {
 	router.GET("/", handler.Index)
 	router.GET("/index", handler.Index)
 
+	router.POST("users/google_oauth", handler.GoogleAuth)
 	router.GET("users/sign_in", handler.GetUsersSignIn)
 	router.POST("users/sign_in", handler.CreateUsersSignIn)
 	router.POST("users/sign_out", handler.CreateUsersSignOut)
