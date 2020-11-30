@@ -66,7 +66,7 @@ func CreateUsersSignOut(ctx *gin.Context) {
 }
 
 func GetUsersSignUp(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, "GetUsersSignUp")
+	ctx.HTML(http.StatusOK, registerHTML, nil)
 }
 func CreateUsersSignUp(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, "CreateUsersSignUp")
