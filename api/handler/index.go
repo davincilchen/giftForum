@@ -9,17 +9,16 @@ import (
 
 func Index(ctx *gin.Context) {
 
+	html := indexHTML
 	user, _ := ginprocess.GetLoginUserInGin(ctx)
 
-	// user = &models.LoginUser{} //test***test //wait remove
-	// user.ID = 5
-	// user.Email = "ad%@gamil"
-
 	if user == nil {
-		ctx.HTML(http.StatusOK, indexHTML, nil)
+		ctx.HTML(http.StatusOK, html, nil)
 		return
 	}
 
-	ResposnHtmlWithUser(ctx, indexHTML, &user.BaseUser)
+	ResposnHtmlWithUser(ctx, html, &user.BaseUser)
+
+	//ResposnSuccessHtmlWithUser(ctx, html, msg, &user.BaseUser)
 
 }

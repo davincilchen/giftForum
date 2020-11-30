@@ -82,9 +82,10 @@ func CreateUsersSignIn(ctx *gin.Context) {
 	}
 
 	ginprocess.SetUserSessionCookie(ctx, loginUser.UUID)
-	ctx.HTML(http.StatusOK, indexHTML, gin.H{
-		"success": "登入成功",
-	})
+	ctx.Redirect(http.StatusFound, "/")
+	// ctx.HTML(http.StatusOK, indexHTML, gin.H{
+	// 	"success": "登入成功",
+	// })
 	return
 }
 
@@ -110,9 +111,10 @@ func CreateUsersSignOut(ctx *gin.Context) {
 	}
 
 	ginprocess.CleanUserSessionCookie(ctx)
-	ctx.HTML(http.StatusOK, indexHTML, gin.H{
-		"success": "登出成功",
-	})
+	ctx.Redirect(http.StatusFound, "/")
+	// ctx.HTML(http.StatusOK, indexHTML, gin.H{
+	// 	"success": "登出成功",
+	// })
 }
 
 func GetUsersSignUp(ctx *gin.Context) {
@@ -151,6 +153,8 @@ func CreateUsersSignUp(ctx *gin.Context) {
 	}
 
 	ginprocess.SetUserSessionCookie(ctx, loginUser.UUID)
-	ResposnSuccessHtmlWithUser(ctx, indexHTML, "註冊成功", &loginUser.BaseUser)
+
+	ctx.Redirect(http.StatusFound, "/")
+	//ResposnSuccessHtmlWithUser(ctx, indexHTML, "註冊成功", &loginUser.BaseUser)
 
 }

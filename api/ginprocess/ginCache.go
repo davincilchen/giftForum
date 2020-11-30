@@ -27,3 +27,24 @@ func GetLoginUserInGin(ctx *gin.Context) (*models.LoginUser, error) {
 func CachePlayerSessionInGin(ctx *gin.Context, user *models.LoginUser) {
 	ctx.Set(GinKeyLoginUser, user)
 }
+
+func GetMessageInGin(ctx *gin.Context) (*string, error) {
+
+	info, ok := ctx.Get(GinKeyMessage)
+	if !ok {
+		err := fmt.Errorf("GinKeyMessage is not find")
+		return nil, err
+	}
+
+	msg, ok := info.(string)
+	if !ok {
+		err := fmt.Errorf("Trans GinKeyMessage.(string) failed from gin cache")
+		return nil, err
+	}
+
+	return &msg, nil
+}
+
+func CacheMessageInGin(ctx *gin.Context, message string) {
+	ctx.Set(GinKeyMessage, message)
+}
