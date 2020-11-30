@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"giftForum/api/ginprocess"
 	"giftForum/models"
 	"net/http"
 
@@ -77,7 +78,25 @@ func CreateUsersSignIn(ctx *gin.Context) {
 }
 
 func CreateUsersSignOut(ctx *gin.Context) {
-	//UserLogout()
+	user, _ := ginprocess.GetLoginUserInGin(ctx)
+	var err error
+	defer func() {
+		if err != nil {
+			ctx.HTML(http.StatusOK, indexHTML, gin.H{
+				"error": "登出失敗",
+			})
+			return
+		}
+	}()
+
+	if user == nil {
+		ctx.HTML(http.StatusOK, indexHTML, nil)
+		return
+	}
+	_, err = models.UserLogout(user.UUID)
+	if err != nil {
+		return
+	}
 	ctx.HTML(http.StatusOK, indexHTML, gin.H{
 		"success": "登出成功",
 	})
