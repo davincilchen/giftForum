@@ -59,7 +59,7 @@ func CreateUsersSignIn(ctx *gin.Context) {
 	return
 }
 
-func DeleteUsersSignOut(ctx *gin.Context) {
+func CreateUsersSignOut(ctx *gin.Context) {
 	ctx.HTML(http.StatusOK, indexHTML, gin.H{
 		"success": "登出成功",
 	})

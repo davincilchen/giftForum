@@ -1,0 +1,30 @@
+<!--menu.html-->
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="/assets/css/custom.css" rel="stylesheet">
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{{ if .success }}
+    <div class="alert alert-success" role="alert">
+        {{ .success }}
+    </div>
+{{ end }}
+{{if .error}}
+    <div class="alert alert-danger" role="alert">
+        {{ .error }}
+    </div>
+{{end}}
+<nav class="navbar navbar-default " style="background-color: #e3f2fd;">
+
+    <div class="container">
+        <div class="navbar-header">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="pull-right text-right nav navbar-nav">
+                    <form class="navbar-form navbar-right"> <!--form for button postion "center" -->
+                        <a href="/" class="btn btn-info" role="button">首頁</a>                    
+                    </form>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+    </div>
+</nav>

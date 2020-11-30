@@ -2,6 +2,6 @@ package handler
 
 const (
 	indexHTML = "lndex.html"
-	loginHTML = "login.tmpl"
+	loginHTML = "login.html"
 	userHTML  = "user.html"
 )

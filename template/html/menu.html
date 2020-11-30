@@ -1,0 +1,49 @@
+<!--menu.html-->
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="/assets/css/custom.css" rel="stylesheet">
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{{ if .success }}
+    <div class="alert alert-success" role="alert">
+        {{ .success }}
+    </div>
+{{ end }}
+{{if .error}}
+    <div class="alert alert-danger" role="alert">
+        {{ .error }}
+    </div>
+{{end}}
+<nav class="navbar navbar-default " style="background-color: #e3f2fd;">
+
+    <div class="container">
+        <div class="navbar-header">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="pull-right text-right nav navbar-nav">
+                    <form class="navbar-form navbar-right"> <!--form for button postion "center" -->
+                    <!-- check user -->
+                        <a href="/" class="btn btn-info" role="button">首頁</a>
+                        {{if .userid}}                            
+                            <a href="/user/{{.userid}}" class="btn btn-info" role="button">{{.email}}</a>                            
+                        {{else}}      
+                            <a href="/users/sign_in" class="btn btn-info" role="button">登入</a>
+                            <a href="/users/sign_up" class="btn btn-info" role="button">註冊</a>
+                        {{end}}<!-- /.end of check user -->
+                    </form>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+    </div>
+</nav>
+
+{{if .userid}}
+<form METHOD="POST" ACTION="/users/sign_out">
+    <div class="form " >
+        <!--a href="/users/sign_out" method="POST" class="btn btn-info" role="button">登出</a-->
+            <button type="submit" class="btnSubmit">登出</button> 
+            
+    </div>
+</form>
+{{end}}
+<br>
+<br>

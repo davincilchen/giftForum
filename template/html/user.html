@@ -3,27 +3,15 @@
 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-{{ if .success }}
-    <div class="alert alert-success" role="alert">
-        {{ .success }}
-    </div>
-{{ end }}
-{{if .error}}
-    <div class="alert alert-danger" role="alert">
-        {{ .error }}
-    </div>
-{{end}}
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+
 <div class="container register-form">
-    {{if .userid}}
-        <a href="/user/{{.userid}}" class="btn btn-info" role="button">{{.email}}</a>
-        <a href="/users/sign_out" method="delete" class="btn btn-info" role="button">Sign out</a>
-    {{else}}
-        <a href="/users/sign_in" class="btn btn-info" role="button">Sign in</a>
-    {{end}}
     <form METHOD="POST" ACTION="/users/sign_in">
         <div class="form">
             <div class="note">
-                <p>User</p>
+                <p>User(Email)</p>
             </div>
         </div>
     </form>

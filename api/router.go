@@ -23,7 +23,7 @@ func Router() *gin.Engine {
 
 	router.GET("users/sign_in", handler.GetUsersSignIn)
 	router.POST("users/sign_in", handler.CreateUsersSignIn)
-	router.DELETE("users/:sign_out", handler.DeleteUsersSignOut)
+	router.POST("users/sign_out", handler.CreateUsersSignOut)
 	router.GET("users/sign_up", handler.GetUsersSignUp)
 	router.POST("users/sign_up", handler.CreateUsersSignUp)
 	router.GET("user/:id", handler.GetUser)
