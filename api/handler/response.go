@@ -2,12 +2,13 @@ package handler
 
 import (
 	"fmt"
+	"giftForum/basemodels"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func ResposnSuccessHtmlWithUser(ctx *gin.Context, html string, success, user interface{}) {
+func ResposnSuccessHtmlWithUser(ctx *gin.Context, html string, success interface{}, user *basemodels.BaseUser) {
 	if success == nil {
 		ResposnHtmlWithUser(ctx, html, user)
 		return
@@ -33,7 +34,7 @@ func ResposnSuccessHtml(ctx *gin.Context, html string, success interface{}) {
 	})
 
 }
-func ResposnHtmlWithUser(ctx *gin.Context, html string, user interface{}) {
+func ResposnHtmlWithUser(ctx *gin.Context, html string, user *basemodels.BaseUser) {
 	fmt.Printf("user %#v \n", user)
 	if user == nil {
 		ctx.HTML(http.StatusOK, html, nil)

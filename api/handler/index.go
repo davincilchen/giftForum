@@ -20,6 +20,6 @@ func Index(ctx *gin.Context) {
 		ctx.HTML(http.StatusOK, indexHTML, nil)
 	}
 
-	ResposnHtmlWithUser(ctx, indexHTML, user)
+	ResposnHtmlWithUser(ctx, indexHTML, &user.BaseUser)
 
 }

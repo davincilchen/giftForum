@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"giftForum/basemodels"
 	"giftForum/gentoken"
 	"time"
 
@@ -72,15 +73,17 @@ func CreateUserAndLogin(email, password string) (*LoginUser, error) {
 
 }
 
-func CreateUser(email, password string) (*User, error) {
+func CreateUser(email, password string) (*basemodels.User, error) {
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
 	}
 
-	u := &User{
-		Email:    email,
+	u := &basemodels.User{
+		BaseUser: basemodels.BaseUser{
+			Email: email,
+		},
 		Password: string(hash),
 	}
 
@@ -92,16 +95,16 @@ func CreateUser(email, password string) (*User, error) {
 	return user, nil
 }
 
-func createUser(user *User) (*User, error) {
+func createUser(user *basemodels.User) (*basemodels.User, error) {
 
 	return user, nil
 }
 
-func GetUserByID(id int) (*User, error) {
-	return &User{}, nil
+func GetUserByID(id int) (*basemodels.User, error) {
+	return &basemodels.User{}, nil
 }
 
-func GetUser(email, password string) (*User, error) {
+func GetUser(email, password string) (*basemodels.User, error) {
 
 	user, err := getUser(email, password)
 	if err != nil {
@@ -116,11 +119,11 @@ func GetUser(email, password string) (*User, error) {
 	return user, nil
 }
 
-func getUser(email, password string) (*User, error) {
-	return &User{}, nil
+func getUser(email, password string) (*basemodels.User, error) {
+	return &basemodels.User{}, nil
 }
 
-func userLogin(user *User) (*LoginUser, error) {
+func userLogin(user *basemodels.User) (*LoginUser, error) {
 	if userManager == nil {
 		return nil, fmt.Errorf("userManager is nil")
 	}

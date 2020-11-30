@@ -137,6 +137,6 @@ func CreateUsersSignUp(ctx *gin.Context) {
 		return
 	}
 
-	ResposnSuccessHtmlWithUser(ctx, indexHTML, "註冊成功", loginUser)
+	ResposnSuccessHtmlWithUser(ctx, indexHTML, "註冊成功", &loginUser.BaseUser)
 
 }

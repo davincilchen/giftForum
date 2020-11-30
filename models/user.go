@@ -1,14 +1,8 @@
 package models
 
-type User struct {
-	ID       int
-	Email    string
-	Password string
-	RxPoint  int
-	TxPoint  int
-}
+import "giftForum/basemodels"
 
 type LoginUser struct {
-	User
+	basemodels.User
 	UUID string
 }
