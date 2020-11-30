@@ -18,18 +18,17 @@ func GetUser(ctx *gin.Context) {
 
 type User struct {
 	Password string
-	Email 	string
+	Email    string
 }
 
-func GetUserForm(ctx *gin.Context) (*User,error){ 
+func GetUserForm(ctx *gin.Context) (*User, error) {
 	user := &User{}
-
 
 	in := ""
 	in, isExist := ctx.GetPostForm("email")
 	if !isExist || in == "" {
 		return nil, errors.New("必須輸入email")
-		
+
 	}
 	user.Email = in
 
@@ -37,12 +36,12 @@ func GetUserForm(ctx *gin.Context) (*User,error){
 	in, isExist = ctx.GetPostForm("password")
 	if !isExist || in == "" {
 		return nil, errors.New("必須輸入password")
-		
+
 	}
-	
+
 	user.Password = in
 
-	return user,nil
+	return user, nil
 
 }
 
@@ -58,8 +57,6 @@ func CreateUsersSignIn(ctx *gin.Context) {
 			"error": err,
 		})
 	}()
-
-
 
 	user, err := GetUserForm(ctx)
 	if err != nil {
@@ -80,6 +77,7 @@ func CreateUsersSignIn(ctx *gin.Context) {
 }
 
 func CreateUsersSignOut(ctx *gin.Context) {
+	//UserLogout()
 	ctx.HTML(http.StatusOK, indexHTML, gin.H{
 		"success": "登出成功",
 	})
@@ -106,15 +104,13 @@ func CreateUsersSignUp(ctx *gin.Context) {
 		return
 	}
 
-	
 	in := ""
 	in, _ = ctx.GetPostForm("checkpassword")
 	if user.Password != in {
 		err = errors.New("輸入的password不一致")
 		return
 	}
-	
-	
+
 	_, err = models.CreateUser(user.Email, user.Password)
 	if err != nil {
 		code = http.StatusUnauthorized

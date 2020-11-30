@@ -9,6 +9,7 @@ import (
 
 	api "giftForum/api"
 	"giftForum/db"
+	"giftForum/models"
 
 	"github.com/gin-gonic/gin"
 )
@@ -53,6 +54,8 @@ func (g *Server) Initialize() error {
 		return err
 	}
 
+	models.Initialize()
+
 	g.dbManager = &d
 	return nil
 
@@ -61,6 +64,7 @@ func (g *Server) Initialize() error {
 //Uninitialize is a
 func (g *Server) Uninitialize() error {
 
+	models.Uninitialize()
 	return g.dbManager.Uninitialize()
 
 }

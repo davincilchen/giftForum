@@ -1,14 +1,14 @@
 package models
 
 type User struct {
-	ID    int
-	Email string
+	ID       int
+	Email    string
 	Password string
-	RxPoint int
-	TxPoint int
+	RxPoint  int
+	TxPoint  int
 }
 
 type LoginUser struct {
 	User
-	Token string
+	UUID string
 }
