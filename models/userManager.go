@@ -3,8 +3,8 @@ package models
 type UserManager struct {
 }
 
-func CreateUser(email, password string) *User {
-	return &User{}
+func CreateUser(email, password string) (*User, error ){
+	return &User{} , nil
 }
 
 func GetUser(id int) (*User, error) {
