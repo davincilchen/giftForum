@@ -17,7 +17,7 @@ func Router() *gin.Engine {
 	// .. //
 	router.Use(middleware.Logger,
 		gin.Recovery(),
-		middleware.Auth)
+		middleware.AuthLogin)
 	router.GET("/", handler.Index)
 	router.GET("/index", handler.Index)
 

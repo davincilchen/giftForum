@@ -23,3 +23,7 @@ func GetLoginUserInGin(ctx *gin.Context) (*models.LoginUser, error) {
 
 	return player, nil
 }
+
+func CachePlayerSessionInGin(ctx *gin.Context, user *models.LoginUser) {
+	ctx.Set(GinKeyLoginUser, user)
+}

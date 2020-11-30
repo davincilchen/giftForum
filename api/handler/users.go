@@ -14,7 +14,17 @@ func GetUsersSignIn(ctx *gin.Context) {
 }
 
 func GetUser(ctx *gin.Context) {
-	ctx.HTML(http.StatusOK, userHTML, nil)
+
+	html := userHTML
+	user, _ := ginprocess.GetLoginUserInGin(ctx)
+
+	if user == nil {
+		ctx.HTML(http.StatusOK, html, nil)
+		return
+	}
+
+	ResposnHtmlWithUser(ctx, html, &user.BaseUser)
+
 }
 
 type User struct {
@@ -64,13 +74,14 @@ func CreateUsersSignIn(ctx *gin.Context) {
 		return
 	}
 
-	_, err = models.UserLogin(user.Email, user.Password)
+	loginUser, err := models.UserLogin(user.Email, user.Password)
 	if err != nil {
 		code = http.StatusUnauthorized
 		err = errors.New("email不存在或password錯誤")
 		return
 	}
 
+	ginprocess.SetUserSessionCookie(ctx, loginUser.UUID)
 	ctx.HTML(http.StatusOK, indexHTML, gin.H{
 		"success": "登入成功",
 	})
@@ -97,6 +108,8 @@ func CreateUsersSignOut(ctx *gin.Context) {
 	if err != nil {
 		return
 	}
+
+	ginprocess.CleanUserSessionCookie(ctx)
 	ctx.HTML(http.StatusOK, indexHTML, gin.H{
 		"success": "登出成功",
 	})
@@ -137,6 +150,7 @@ func CreateUsersSignUp(ctx *gin.Context) {
 		return
 	}
 
+	ginprocess.SetUserSessionCookie(ctx, loginUser.UUID)
 	ResposnSuccessHtmlWithUser(ctx, indexHTML, "註冊成功", &loginUser.BaseUser)
 
 }

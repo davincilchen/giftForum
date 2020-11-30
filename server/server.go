@@ -8,6 +8,7 @@ import (
 	"sync/atomic"
 
 	api "giftForum/api"
+	"giftForum/config"
 	"giftForum/db"
 	"giftForum/models"
 
@@ -54,7 +55,9 @@ func (g *Server) Initialize() error {
 		return err
 	}
 
-	models.Initialize()
+	//Todo: use subSystem
+	config.Initialize(buf)
+	models.Initialize(buf)
 
 	g.dbManager = &d
 	return nil
@@ -65,6 +68,7 @@ func (g *Server) Initialize() error {
 func (g *Server) Uninitialize() error {
 
 	models.Uninitialize()
+	config.Uninitialize()
 	return g.dbManager.Uninitialize()
 
 }

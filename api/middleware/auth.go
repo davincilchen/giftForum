@@ -1,12 +1,23 @@
 package middleware
 
 import (
-	"fmt"
+	"giftForum/api/ginprocess"
+	"giftForum/models"
+
 	"github.com/gin-gonic/gin"
 )
 
+func AuthLogin(ctx *gin.Context) {
 
-func Auth(ctx *gin.Context) {
-	fmt.Print("auth---\n")
+	uuid, err := ginprocess.GetUserSessionCookie(ctx)
+	if err != nil {
+		return
+	}
+
+	loginPlayer, err := models.GetLoginPlayer(*uuid)
+	if err != nil {
+		return
+	}
+	ginprocess.CachePlayerSessionInGin(ctx, loginPlayer)
+
 }
-

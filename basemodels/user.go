@@ -1,11 +1,10 @@
 package basemodels
 
 type BaseUser struct {
-	ID       int
-	Email    string
-	Password string
-	RxPoint  int
-	TxPoint  int
+	ID      int
+	Email   string
+	RxPoint int
+	TxPoint int
 }
 type User struct {
 	BaseUser
