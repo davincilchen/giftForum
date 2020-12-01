@@ -11,6 +11,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var (
+	//googleOauthConfig *oauth2.Config
+	// TODO: randomize it
+	oauthStateString = "pseudo-random"
+)
+
 func GetUsersSignIn(ctx *gin.Context) {
 	ctx.HTML(http.StatusOK, loginHTML, nil)
 }

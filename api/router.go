@@ -29,6 +29,8 @@ func Router() *gin.Engine {
 	router.POST("users/sign_up", handler.CreateUsersSignUp)
 	router.GET("user/:id", handler.GetUser)
 	router.POST("/user/:from_id/to/:id/gift", handler.CreateUserSendGift)
+	router.GET("/callback", handler.HandleGoogleCallback)
+
 	
 	return router
 }

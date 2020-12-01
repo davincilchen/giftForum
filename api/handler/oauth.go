@@ -1,76 +1,98 @@
 package handler
 
 import (
+	"io/ioutil"
+	"fmt"
 	"net/http"
+	"encoding/json"
+	"giftForum/config"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
+	//"golang.org/x/oauth2/google"
 
 
 )
 
-// func CreateGoogleOAuthURL() string {
-// 	// 使用 lib 產生一個特定 config instance
-// 	config := &oauth2.Config{
-// 		//憑證的 client_id
-// 		ClientID:
-// 		//憑證的 client_secret
-// 		ClientSecret: ,
-// 		//當 Google auth server 驗證過後，接收從 Google auth server 傳來的資訊
-// 		// RedirectURL:  "http://localhost:8080/google-login-callback",
-// 		RedirectURL: "http://localhost:8081/",
-// 		//告知 Google auth server 授權範圍，在這邊是取得用戶基本資訊和Email，Scopes 為 Google 提供
-// 		Scopes: []string{
-// 			"https://www.googleapis.com/auth/userinfo.email",
-// 			"https://www.googleapis.com/auth/userinfo.profile",
-// 		},
-// 		//指的是 Google auth server 的 endpoint，用 lib 預設值即可
-// 		Endpoint: google.Endpoint,
-// 	}
-
-// 	//產生出 config instance 後，就可以使用 func AuthCodeURL 建立請求網址
-// 	return config.AuthCodeURL("state")
-// }
-
-func CreateGoogleConfig() *oauth2.Config {
-	// 使用 lib 產生一個特定 config instance
-	config := &oauth2.Config{
-		//憑證的 client_id
-
-		//憑證的 client_secret
-
-		//當 Google auth server 驗證過後，接收從 Google auth server 傳來的資訊
-		// RedirectURL:  "http://localhost:8080/google-login-callback",
-		RedirectURL: "http://localhost:8081/",
-		//告知 Google auth server 授權範圍，在這邊是取得用戶基本資訊和Email，Scopes 為 Google 提供
-		Scopes: []string{
-			"https://www.googleapis.com/auth/userinfo.email",
-			"https://www.googleapis.com/auth/userinfo.profile",
-		},
-		//指的是 Google auth server 的 endpoint，用 lib 預設值即可
-		Endpoint: google.Endpoint,
-	}
-
-	return config
+// User is a retrieved and authentiacted user.
+type GoogleUser struct {
+    ID string `json:"id"`
+    Name string `json:"name"`
+    GivenName string `json:"given_name"`
+    FamilyName string `json:"family_name"`
+    Profile string `json:"profile"`
+    Picture string `json:"picture"`
+    Email string `json:"email"`
+    EmailVerified bool `json:"verified_email"`
+    Gender string `json:"gender"`
 }
-
+ 
 
 func GoogleAuth(ctx *gin.Context) {
 
-	// config := CreateGoogleConfig()
-	// client, err := oauth2ns.AuthenticateUser(config)
-	// if err != nil {
-	// 	fmt.Println("oauth2ns.AuthenticateUser error : ", err)
-	// }
 
-	//fmt.Printf("user %#v", user)
-	//spew.Dump(client)
+	googleOauthConfig := config.GetGoogleOauth2Config()
 
-	ctx.HTML(http.StatusOK, loginHTML, nil)
+	url := googleOauthConfig.AuthCodeURL(oauthStateString)
+	ctx.Redirect(http.StatusTemporaryRedirect, url)
 }
 
 
 
+
+
+func HandleGoogleCallback(ctx *gin.Context) {
+	
+	content, err := getUserInfo(ctx.Request.URL.Query().Get("state"), ctx.Request.URL.Query().Get("code"))
+	//content, err := getUserInfo(r.FormValue("state"), r.FormValue("code"))
+	if err != nil {
+		fmt.Println(err.Error())
+		ctx.Redirect(http.StatusTemporaryRedirect, "/")
+		return
+	}
+
+	u := GoogleUser{}
+	err = json.Unmarshal(content, &u)
+	if err != nil {
+		fmt.Println("HandleGoogleCallback GoogleUser Unmarshal error",err)
+		return 
+	}
+	
+	fmt.Printf("Content: %#v\n", content)
+	fmt.Printf("Content: %#v\n",string( content))
+
+	fmt.Printf("Content: %#v\n", u)
+
+	ctx.Redirect(http.StatusFound, "/")
+}
+
+
+
+
+
+func getUserInfo(state string, code string) ([]byte, error) {
+	if state != oauthStateString {
+		return nil, fmt.Errorf("invalid oauth state")
+	}
+
+	googleOauthConfig := config.GetGoogleOauth2Config()//2020aaa
+	token, err := googleOauthConfig.Exchange(oauth2.NoContext, code)
+	if err != nil {
+		return nil, fmt.Errorf("code exchange failed: %s", err.Error())
+	}
+
+	response, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
+	if err != nil {
+		return nil, fmt.Errorf("failed getting user info: %s", err.Error())
+	}
+
+	defer response.Body.Close()
+	contents, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed reading response body: %s", err.Error())
+	}
+
+	return contents, nil
+}
 
 // func CreateUsersSignIn(ctx *gin.Context) {
 // 	var err error

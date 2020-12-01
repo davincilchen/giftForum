@@ -56,12 +56,30 @@ func (g *Server) Initialize() error {
 	}
 
 	//Todo: use subSystem
+	g.InitializeCredentials()
 	config.Initialize(buf)
 	models.Initialize(buf)
 
 	g.dbManager = &d
 	return nil
 
+}
+
+func (g *Server) InitializeCredentials() error {
+	var cred config.Credentials
+	file, err := ioutil.ReadFile("./creds.json")
+	if err != nil {
+		fmt.Printf("InitializeCredentials File error: %v\n", err)
+		return err
+	}
+	err = json.Unmarshal(file, &cred)
+	if err != nil {
+		fmt.Printf("InitializeCredentials Unmarshal error: %v\n", err)
+		return  err
+	}
+	config.SetCredentials(cred)
+	config.SetPort(g.Config.Port)
+	return nil
 }
 
 //Uninitialize is a
@@ -119,6 +137,10 @@ func (g *Server) Serve() {
 	if g.Config.GinMode != "" {
 		gin.SetMode(g.Config.GinMode)
 	}
-	router.Run(addr)
 
+	router.Run(addr)
+	//router.Run("localhost:8081")
+	
+	//fmt.Println(router.ListenAndServe("addr", nil))
 }
+
