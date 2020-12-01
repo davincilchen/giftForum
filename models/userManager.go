@@ -188,3 +188,21 @@ func UserLogout(uuid string) (*LoginUser, error) {
 	}
 	return lUser, nil
 }
+
+func OauthUserDone(email string) (*LoginUser, error) {
+
+	
+	user, err := basemodels.GetUser(email)
+	if err == nil {
+		return userLogin(user)
+	}
+
+	password := gentoken.GenToken()
+	user, err = CreateUser(email,password)
+	
+	if err != nil {
+		return nil, err
+	}
+
+	return userLogin(user)
+}

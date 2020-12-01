@@ -6,6 +6,9 @@ import (
 	"net/http"
 	"encoding/json"
 	"giftForum/config"
+	"giftForum/models"
+	"giftForum/api/ginprocess"
+
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 	//"golang.org/x/oauth2/google"
@@ -13,7 +16,7 @@ import (
 
 )
 
-// User is a retrieved and authentiacted user.
+
 type GoogleUser struct {
     ID string `json:"id"`
     Name string `json:"name"`
@@ -56,12 +59,18 @@ func HandleGoogleCallback(ctx *gin.Context) {
 		fmt.Println("HandleGoogleCallback GoogleUser Unmarshal error",err)
 		return 
 	}
+
+	loginUser, err := models.OauthUserDone(u.Email)
+	if err != nil {
+		fmt.Println(err.Error())
+		ctx.Redirect(http.StatusFound, "/") //TODO:
+		return
+	}
 	
-	fmt.Printf("Content: %#v\n", content)
-	fmt.Printf("Content: %#v\n",string( content))
-
-	fmt.Printf("Content: %#v\n", u)
-
+	// fmt.Printf("Content: %#v\n", content)
+	// fmt.Printf("Content: %#v\n",string( content))
+	// fmt.Printf("Content: %#v\n", u)
+	ginprocess.SetUserSessionCookie(ctx, loginUser.UUID)
 	ctx.Redirect(http.StatusFound, "/")
 }
 
