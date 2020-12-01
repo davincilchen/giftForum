@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"strconv"
 	"giftForum/api/ginprocess"
 	"giftForum/models"
 	"net/http"
@@ -16,15 +17,33 @@ func GetUsersSignIn(ctx *gin.Context) {
 func GetUser(ctx *gin.Context) {
 
 	html := userHTML
-	user, _ := ginprocess.GetLoginUserInGin(ctx)
 
-	if user == nil {
-		ctx.HTML(http.StatusOK, html, nil)
+
+	idString := ctx.Param("id")
+	id, err := strconv.Atoi(idString)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, "bad request")
+		return
+	}
+	pageUser, err := models.GetUserWithID(id)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, "bad request")
 		return
 	}
 
-	ResposnHtmlWithUser(ctx, html, &user.BaseUser)
+	user, _ := ginprocess.GetLoginUserInGin(ctx)
 
+	if user == nil {
+		ctx.HTML(http.StatusOK, html, gin.H{
+			GinHPageUser: pageUser,
+		})
+		return
+	}
+
+	ctx.HTML(http.StatusOK, html, gin.H{
+		GinHPageUser: pageUser,
+		GinHUser:  user,
+	})
 }
 
 type User struct {

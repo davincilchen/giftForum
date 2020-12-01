@@ -17,7 +17,7 @@ func ResposnSuccessHtmlWithUser(ctx *gin.Context, html string, success interface
 		ResposnSuccessHtml(ctx, html, success)
 		return
 	}
-	ctx.HTML(http.StatusOK, indexHTML, gin.H{
+	ctx.HTML(http.StatusOK, html, gin.H{
 		"success": success,
 		GinHUser:  user,
 	})

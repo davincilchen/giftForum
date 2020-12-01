@@ -7,4 +7,5 @@ const (
 	userHTML     = "user.html"
 
 	GinHUser = "user"
+	GinHPageUser = "pageUser"
 )

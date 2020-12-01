@@ -79,3 +79,36 @@ func GetUser(email string) (*User, error) {
 	return ret, err
 
 }
+
+
+func queryUserWithID(id int) (*sql.Rows, error) {
+	return db.GetSlaveDB().Query(`
+	 	SELECT users.email, users.password, users.rxpoint ,users.txpoint
+	  	FROM users 
+	  	WHERE id = $1`,id) 
+	
+}
+
+
+func GetUserWithID(id int) (*User, error) {
+	row, err := queryUserWithID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	defer row.Close()
+
+	if !row.Next() {
+		return nil, ErrNoMatchingData
+	}
+
+	ret := &User{
+		BaseUser: BaseUser{
+			ID: id,
+		},
+	}
+
+	err = row.Scan(&ret.Email, &ret.Password, &ret.RxPoint, &ret.TxPoint)
+	return ret, err
+
+}

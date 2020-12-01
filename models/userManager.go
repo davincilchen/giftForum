@@ -119,13 +119,9 @@ func CreateUser(email, password string) (*basemodels.User, error) {
 
 
 
-// func createUser(user *basemodels.User) (*basemodels.User, error) {
 
-// 	return user, nil
-// }
-
-func GetUserByID(id int) (*basemodels.User, error) {
-	return &basemodels.User{}, nil
+func GetUserWithID(id int) (*basemodels.User, error) {
+	return basemodels.GetUserWithID(id)
 }
 
 func GetUser(email, password string) (*basemodels.User, error) {
@@ -143,9 +139,6 @@ func GetUser(email, password string) (*basemodels.User, error) {
 	return user, nil
 }
 
-// func getUser(email, password string) (*basemodels.User, error) {
-// 	return &basemodels.User{}, nil
-// }
 
 func userLogin(user *basemodels.User) (*LoginUser, error) {
 	if userManager == nil {
