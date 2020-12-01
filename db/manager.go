@@ -8,7 +8,8 @@ import (
 	"net/url"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
+	//_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 )
 
 var masterDB *sql.DB
@@ -101,6 +102,29 @@ func MapToQueryString(m map[string]string) string {
 }
 
 func (r *DBManager) SqlOpen(c DBConfig) (*sql.DB, error) {
+
+	dataSourceName := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", 
+	c.Server, c.Port, c.Username, c.Password, c.Database)
+
+	d, err := sql.Open("postgres", dataSourceName)
+	if err != nil {
+		return nil, err
+	}
+
+	err = d.Ping()
+	if err != nil {
+		return nil, err
+	}
+
+	d.SetConnMaxLifetime(time.Second * time.Duration(c.ConnMaxLifetime))
+	d.SetMaxOpenConns(c.MaxOpenConns)
+	d.SetMaxIdleConns(c.MaxIdleConns)
+
+	return d, nil
+}
+
+
+func (r *DBManager) MySqlOpen(c DBConfig) (*sql.DB, error) {
 
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
 		c.Username, c.Password,

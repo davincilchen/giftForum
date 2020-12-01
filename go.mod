@@ -10,6 +10,7 @@ require (
 	github.com/gorilla/pat v1.0.1
 	github.com/gorilla/sessions v1.2.1
 	github.com/jinzhu/gorm v1.9.16
+	github.com/lib/pq v1.1.1
 	github.com/markbates/goth v1.66.0
 	github.com/nmrshll/oauth2-noserver v0.0.0-20190221200101-9bf017bef639
 	github.com/nmrshll/rndm-go v0.0.0-20170430161430-8da3024e53de // indirect
