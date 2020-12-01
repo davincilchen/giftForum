@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"errors"
 	"strconv"
 	"giftForum/api/ginprocess"
@@ -12,6 +13,27 @@ import (
 
 func GetUsersSignIn(ctx *gin.Context) {
 	ctx.HTML(http.StatusOK, loginHTML, nil)
+}
+
+func CreateUserSendGift(ctx *gin.Context) {
+	//TODO: 驗證是否已登入
+	idString := ctx.Param("id")
+	ID, err := strconv.Atoi(idString)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, "bad request")
+		return
+	}
+	idString = ctx.Param("from_id")
+	fromID, err := strconv.Atoi(idString)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, "bad request")
+		return
+	}
+
+
+	models.CreateUserSendGift(fromID,ID)
+	ctx.Redirect(http.StatusFound, "/")
+
 }
 
 func GetUser(ctx *gin.Context) {
@@ -40,10 +62,23 @@ func GetUser(ctx *gin.Context) {
 		return
 	}
 
+	if user.ID == pageUser.ID{
+		ctx.HTML(http.StatusOK, html, gin.H{
+			GinHPageUser: pageUser,
+			GinHUser:  user,
+		})
+		return
+	}
+	///user/{{.user.id}}/to/{{.pageuser.id}}/gift
+	
+	
+	path := fmt.Sprintf("/user/%d/to/%d/gift",user.ID, pageUser.ID)
 	ctx.HTML(http.StatusOK, html, gin.H{
 		GinHPageUser: pageUser,
 		GinHUser:  user,
+		GinHTxPotinPath: path,
 	})
+	
 }
 
 type User struct {

@@ -139,6 +139,11 @@ func GetUser(email, password string) (*basemodels.User, error) {
 	return user, nil
 }
 
+func CreateUserSendGift(fromID, toID int) error{
+
+	return basemodels.CreateUserSendGift(fromID, toID)
+}
+
 
 func userLogin(user *basemodels.User) (*LoginUser, error) {
 	if userManager == nil {

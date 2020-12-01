@@ -112,3 +112,28 @@ func GetUserWithID(id int) (*User, error) {
 	return ret, err
 
 }
+
+
+func CreateUserSendGift(fromID, toID int) error{
+	d := db.GetMasterDB()
+	tx, err := d.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	sqlStatement := `UPDATE users SET txpoint = txpoint+1 WHERE id = $1;`
+	_, err = d.Exec(sqlStatement, fromID)
+	if err != nil {
+  		return err
+	}
+	
+	sqlStatement = `UPDATE users SET rxpoint = rxpoint+1 WHERE id = $1;`
+	_, err = d.Exec(sqlStatement, toID)
+	if err != nil {
+  		return err
+	}
+
+	tx.Commit()
+	return nil
+}

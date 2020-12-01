@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"fmt"
+
 	"giftForum/basemodels"
 	"net/http"
 
@@ -35,7 +35,6 @@ func ResposnSuccessHtml(ctx *gin.Context, html string, success interface{}) {
 
 }
 func ResposnHtmlWithUser(ctx *gin.Context, html string, user *basemodels.BaseUser) {
-	fmt.Printf("user %#v \n", user)
 	if user == nil {
 		ctx.HTML(http.StatusOK, html, nil)
 		return

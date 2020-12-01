@@ -8,4 +8,5 @@ const (
 
 	GinHUser = "user"
 	GinHPageUser = "pageUser"
+	GinHTxPotinPath = "txPotinPath"
 )

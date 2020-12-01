@@ -16,3 +16,14 @@
         </div>
     </form>
 </div>
+
+
+{{if .txPotinPath}}
+<form METHOD="POST" ACTION={{.txPotinPath}}>
+    <div class="form " >
+        <!--a href="/users/sign_out" method="POST" class="btn btn-info" role="button">登出</a-->
+            <button type="submit" class="btnSubmit">贈點</button>             
+    </div>
+</form>
+{{end}}
+
