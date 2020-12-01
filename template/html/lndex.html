@@ -12,7 +12,42 @@
         </div>
     </form>
 </div>
+<br>
+<br>
+<br>
+<br>
+<div class="container register-form">
+    <div class="note">
+        <p>贈點排行</p>
+  
 
+    </div>    
+</div>
+
+{{if .topTxUsers}}
+    {{range $i, $a := .topTxUsers}}
+    <div>
+    <p>Email: {{$a.Email}}   ,  贈送點數: {{$a.TxPoint}}</p>
+    </div>
+    {{end}}
+{{end}}
+
+<br>
+<br>
+<br>
+<br>
+<div class="container register-form">
+    <div class="note">
+        <p>收點排行</p>
+    </div>    
+</div>
+{{if .topRxUsers}}
+    {{range $i, $a := .topRxUsers}}
+    <div>
+    <p>Email: {{$a.Email}}   ,  收取點數: {{$a.RxPoint}}</p>
+    </div>
+    {{end}}
+{{end}}
 
 <!--Embed the footer.html template at this location-->
 {{ template "footer.html" .}}

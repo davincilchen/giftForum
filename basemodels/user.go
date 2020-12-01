@@ -137,3 +137,58 @@ func CreateUserSendGift(fromID, toID int) error{
 	tx.Commit()
 	return nil
 }
+
+
+func GetTopTxUser() ([]User, error){
+
+	rows, err := db.GetSlaveDB().Query(`
+	 	SELECT users.id, users.email, users.rxpoint ,users.txpoint
+	  	FROM users Order By users.txpoint DESC limit 10`) 
+		
+
+  	if err != nil {
+	 	return nil, err
+	}
+	  
+	defer rows.Close()
+	  
+	var ret []User
+	for rows.Next() {
+		var s User
+		if err := rows.Scan(&s.ID, &s.Email,  &s.RxPoint, &s.TxPoint); err != nil {
+			return nil, err
+		}
+		ret = append(ret, s)
+	}
+
+	return ret, err		  
+	
+}
+
+
+func GetTopRxUser() ([]User, error){
+
+	rows, err := db.GetSlaveDB().Query(`
+	 	SELECT users.id, users.email, users.rxpoint ,users.txpoint
+	  	FROM users Order By users.rxpoint DESC limit 10`) 
+		
+
+  	if err != nil {
+	 	return nil, err
+	}
+	  
+	defer rows.Close()
+	  
+	var ret []User
+	for rows.Next() {
+		var s User
+		if err := rows.Scan(&s.ID, &s.Email,  &s.RxPoint, &s.TxPoint); err != nil {
+			return nil, err
+		}
+		ret = append(ret, s)
+	}
+
+	return ret, err		  
+	
+}
+

@@ -140,10 +140,16 @@ func GetUser(email, password string) (*basemodels.User, error) {
 }
 
 func CreateUserSendGift(fromID, toID int) error{
-
 	return basemodels.CreateUserSendGift(fromID, toID)
 }
 
+func GetTopTxUser() ([]basemodels.User, error){
+	return basemodels.GetTopTxUser()
+}
+
+func GetTopRxUser() ([]basemodels.User, error){
+	return basemodels.GetTopRxUser()
+}
 
 func userLogin(user *basemodels.User) (*LoginUser, error) {
 	if userManager == nil {

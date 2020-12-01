@@ -9,4 +9,7 @@ const (
 	GinHUser = "user"
 	GinHPageUser = "pageUser"
 	GinHTxPotinPath = "txPotinPath"
+
+	GinHTopTxUsers = "topTxUsers"
+	GinHTopRxUsers = "topRxUsers"
 )
