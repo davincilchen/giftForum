@@ -102,14 +102,14 @@ func CreateUser(email, password string) (*basemodels.User, error) {
 		return nil, err
 	}
 
-	u := &basemodels.User{
-		BaseUser: basemodels.BaseUser{
-			Email: email,
-		},
-		Password: string(hash),
-	}
+	// u := &basemodels.User{
+	// 	BaseUser: basemodels.BaseUser{
+	// 		Email: email,
+	// 	},
+	// 	Password: string(hash),
+	// }
 
-	user, err := createUser(u)
+	user, err := basemodels.CreateUser(email,string(hash))
 	if err != nil {
 		return nil, err
 	}
@@ -117,10 +117,12 @@ func CreateUser(email, password string) (*basemodels.User, error) {
 	return user, nil
 }
 
-func createUser(user *basemodels.User) (*basemodels.User, error) {
 
-	return user, nil
-}
+
+// func createUser(user *basemodels.User) (*basemodels.User, error) {
+
+// 	return user, nil
+// }
 
 func GetUserByID(id int) (*basemodels.User, error) {
 	return &basemodels.User{}, nil
@@ -128,7 +130,7 @@ func GetUserByID(id int) (*basemodels.User, error) {
 
 func GetUser(email, password string) (*basemodels.User, error) {
 
-	user, err := getUser(email, password)
+	user, err := basemodels.GetUser(email)
 	if err != nil {
 		return nil, err
 	}
@@ -141,9 +143,9 @@ func GetUser(email, password string) (*basemodels.User, error) {
 	return user, nil
 }
 
-func getUser(email, password string) (*basemodels.User, error) {
-	return &basemodels.User{}, nil
-}
+// func getUser(email, password string) (*basemodels.User, error) {
+// 	return &basemodels.User{}, nil
+// }
 
 func userLogin(user *basemodels.User) (*LoginUser, error) {
 	if userManager == nil {

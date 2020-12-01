@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/url"
 	"time"
+	"math/rand"
 
 	//_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
@@ -15,6 +16,27 @@ import (
 var masterDB *sql.DB
 var slaveDB []*sql.DB
 
+
+func GetDB(isMaster bool)*sql.DB{
+	if isMaster {
+		return masterDB
+	}
+
+	if len(slaveDB) == 0 {
+		return masterDB
+	}
+
+	index := rand.Intn(len(slaveDB))
+	return slaveDB[index]
+}
+
+func GetMasterDB()*sql.DB{
+	return GetDB(true)
+}
+
+func GetSlaveDB()*sql.DB{
+	return GetDB(false)
+}
 type DBManager struct {
 }
 
